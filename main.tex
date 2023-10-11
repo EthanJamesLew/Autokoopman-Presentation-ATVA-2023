@@ -1,0 +1,185 @@
+\pdfminorversion = 4
+\documentclass[shortpres,aspectratio=43]{beamer}
+%\documentclass[shortpres,aspectratio=169]{beamer}
+\usetheme{CambridgeUS}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+  \hspace*{4ex}\usebeamerfont{author in head/foot}Niklas Kochdumper%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot} \insertshortdate{}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}\part{title}
+\beamertemplatenavigationsymbolsempty
+
+%color specification-----------------------------------------------------
+\definecolor{TUMblue}{RGB}{27, 94, 170}%{rgb}{0.00, 0.40, 0.74}
+\definecolor{TUMgray}{rgb}{0.85, 0.85, 0.86}
+\definecolor{TUMpantone285C}{rgb}{0.00, 0.45, 0.81}
+\definecolor{TUMpantone300C}{RGB}{27, 94, 170} %uncorrected TUMpantone300C
+\definecolor{lightblue}{RGB}{213,227,241}%{rgb}{0.7529,0.8118,0.9333}
+\definecolor{darkgreen}{RGB}{0, 200, 0}
+\definecolor{verydarkgreen}{RGB}{0 120 0}
+\definecolor{SBred}{RGB}{150 0 0}
+
+\setbeamercolor{block title}{fg=white, bg=SBred}
+\setbeamercolor{block body}{bg=lightblue}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+%------------------------------------------------------------------------
+\setbeamercolor{frametitle}{bg=SBred, fg=white}
+\setbeamercolor{palette primary}{bg=SBred, fg=white}%{fg=TUMblue,bg=TUMgray}
+\setbeamercolor{palette secondary}{use=palette primary,bg=SBred, fg=white}
+\setbeamercolor{palette tertiary}{use=palette primary,fg=white, bg=SBred}
+\setbeamercolor{palette quaternary}{use=palette primary,fg=white, bg=SBred}
+
+\setbeamercolor{title}{bg=SBred,fg=white}
+\setbeamercolor{item projected}{use=item,fg=black,bg = lightblue}
+\setbeamercolor{block title}{fg=white, bg=SBred}
+\setbeamercolor{block body}{bg=white}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+%------------------------------------------------------------------------
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\setbeamercolor{bibliography item}{parent=palette primary}
+\setbeamercolor{bibliography entry author}{fg=TUMblue}
+
+%------------------------------------------------------------------------
+\setbeamertemplate{enumerate items}[bullet]
+
+%------------------------------------------------------------------------
+\usepackage{subfigure}
+\usepackage{textpos} % for figure (logo) on slides
+\usepackage{psfrag} % for \psfrag in figures
+\usepackage{algorithm,algpseudocode} % for algorithm environment
+\usepackage{booktabs} % for rulers in tables
+\usepackage{units} % for units to values
+%\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,arrows.meta, automata,positioning,backgrounds}
+\usetikzlibrary{overlay-beamer-styles,patterns}
+\usetikzlibrary{chains, trees, fit, tikzmark}
+\usetikzlibrary{shapes.geometric, shapes.arrows, decorations.pathreplacing}
+\usepackage{makecell}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{bbding}
+\usepackage{german}
+\usepackage[export]{adjustbox}
+\usepackage{pifont}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+% TikZ ---------------
+\tikzset{
+	preEdge/.style={black, <-, shorten <=1pt, >=stealth', semithick, rounded corners=2pt},
+	postEdge/.style={black, ->, shorten >=1pt, >=stealth', semithick, rounded corners=2pt},
+	axes/.style={black, ->, >=stealth'}
+}
+\definecolor{setedgeblue}{rgb}{0.00, 0.45, 0.81}
+\definecolor{setfaceblue}{rgb}{0.7529,0.8118,0.9333}
+\definecolor{setedgegreen}{rgb}{0.00,0.50,0.00}
+\definecolor{setfacegreen}{rgb}{0.4510,0.9020,0.4510}
+\definecolor{setedgegray}{rgb}{0.50,0.50,0.50}
+\definecolor{setfacegray}{rgb}{0.85,0.85,0.85}
+\definecolor{setedgered}{rgb}{0.6992,0.1367,0.1367}
+\definecolor{setfacered}{rgb}{0.8906,0.2617,0.2070}
+% --------------------
+
+\newcommand{\arstretch}[1]{\renewcommand{\arraystretch}{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+%-----------------------------------------------------------------------
+\newcommand{\at}{\fontfamily{ptm}\selectfont @}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}} %to change the row spacing in tables
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\setbeamertemplate{headline}[default]
+
+%-----------------------------------------------------------------------
+\title[AutoKoopman]{AutoKoopman: A Toolbox for Automated System Identification via Koopman Operator Linearization}
+
+% \author[Lew et al.]{Stanley Bak$^1$, Sergiy Bogomolov$^2$, Brandon Hencey$^3$, \\ Niklas Kochdumper$^1$, \underline{Ethan Lew}$^4$, and Kostiantyn Potomkin$^2$}
+
+\author[Lew et al.]{\underline{Ethan Lew}$^1$, Abdelrahman Hekal$^2$, Kostiantyn Potomkin$^2$, Niklas Kochdumper$^3$, Brandon Hencey$^4$, Stanley Bak$^3$, Sergiy Bogomolov$^2$}
+
+\institute[Galois Inc.]{$^1$Galois Inc., $^2$Newcastle University, \\$^3$ Stony Brook University, $^4$Air Force Research Laboratory}
+
+\date[ATVA 2023]{}
+
+%---------------------------------------------------------------------
+\begin{document}
+
+%% TUM logo
+%\addtobeamertemplate{frametitle}{}{
+%\begin{textblock*}{\textwidth}(.91\textwidth,-0.8cm) % for aspectratio=43
+%\includegraphics[height=0.65cm]{./figures/logo.png} % for aspectratio=43
+%\begin{textblock*}{\textwidth}(.95\textwidth,-0.9cm) % for aspectratio=169
+%\includegraphics[height=0.8cm]{./figures/logo.png} % for aspectratio=169
+%\end{textblock*}}
+
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+% Slide 2: Motivations
+\begin{frame}
+\frametitle{Motivations}
+\begin{itemize}
+    \item<1-> Koopman linearization provides a valuable method for identifying continuous dynamical systems using observed data.
+    \item<2-> It captures complex non-linear behaviors, providing a globally applicable linear model.
+    \item<3-> Useful for future state prediction, system design and optimization, and enhancing interpretability and physical understanding.
+    \item<4-> \textbf{Challenge:} System identification via Koopman linearization is complex, requiring careful selection of observables and hyperparameters.
+    \item<5-> \textbf{Solution:} AutoKoopman automates this, optimizing all parameters to deliver an accurate Koopman linearized model.
+\end{itemize}
+\end{frame}
+
+% Slide 3: System Identification Problem
+\begin{frame}
+\frametitle{System Identification Problem}
+We aim to identify the dynamics of a continuous-time system from a set of trajectories:
+\begin{equation}
+\dot{\mathbf{x}}(t) = \mathbf{f}(\mathbf{x}(t), \mathbf{u}(t))
+\end{equation}
+\pause
+Given trajectories, our goal is to learn a function \textbf{f} predicting the next state or time derivative. The system dynamics can be described by an arbitrary black-box function $\mathbf{f}(\mathbf{x}(t), \mathbf{u}(t))$, accommodating various system types.
+\end{frame}
+
+% Slide 4: The Koopman Operator
+\begin{frame}
+\frametitle{The Koopman Operator}
+In 1931, B.O. Koopman introduced an alternative way to represent dynamic systems. The Koopman operator offers a globally linear representation, but only for specific systems.
+\pause
+\[
+\mathcal{K}_{t} \big(\mathbf{g} (\mathbf{x}_0, \mathbf{u}_0)\big) = \mathbf{g} \big(\mathbf{F}_{t}(\mathbf{x}_0,  \mathbf{u}_0 ), \mathbf{u}(t) \big)
+\]
+\pause
+We utilize explicit learning techniques for the operator. Our aim is a finite space $\mathcal{H}$ where system dynamics are well approximated by a linear operator.
+\pause
+The optimization problem seeks the observables $\mathbf{g}$ and the Koopman operator $K_{\Delta t}$ minimizing the mean square error over the trajectories set $\mathcal{T}$.
+\end{frame}
+
+
+\end{document}
