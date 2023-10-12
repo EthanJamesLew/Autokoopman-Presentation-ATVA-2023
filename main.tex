@@ -320,55 +320,78 @@ experiment_results = auto_koopman(
 %Slide 5
 \begin{frame}
 \frametitle{F1Tenth Case Study: Problem Setup}
-\begin{itemize}
-    \item<1-> \textbf{Objective:} Learning a Koopman linearized model for Stony Brook University's F1Tenth entry.
-    \item<2-> \textbf{F1Tenth Competition:}
-    \begin{itemize}
-        \item Open-source autonomous car platform.
-        \item Focus: continuous control \& reinforcement learning.
-        \item Global competitions with innovative entries.
-    \end{itemize}
-    \item<3-> \textbf{Using AutoKoopman:} Aim to learn a surrogate model for control tasks and runtime assurance.
-    \item<4-> \textbf{Data Collection:} Trajectories of the 4D vehicle state with inputs collected for analysis.
-\end{itemize}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+	\begin{itemize}
+	    \item<1-> \textbf{F1Tenth Competition:} Open-source autonomous 1:10 scale car platform offering global competitions with innovative entries.
+	    \item<3-> \textbf{Objective:} A Koopman linearized \textit{surrogate model} for control tasks and runtime assurance.
+	    \item<4-> \textbf{Data Collection:} Trajectories of the 4D vehicle state with inputs collected for analysis.
+	\end{itemize}
+	\end{column}
+	\begin{column}{0.5\textwidth}
 % Placeholder for F1Tenth platform image
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{./img/f1tenth.png}
+  \includegraphics[width=0.9\textwidth]{./img/f1tenth.png}
   \caption{F1Tenth platform}
 \end{figure}
+
 % Placeholder for trajectories visualization image
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{path_to_image2} % replace 'path_to_image2' with the actual file path
   \caption{Trajectories visualization}
 \end{figure}
+	\end{column}
+
+\end{columns}
 \end{frame}
 
 %Slide 6
 \begin{frame}
 \frametitle{F1Tenth Case Study: Koopman Linearization and Tuning}
-\begin{itemize}
-    \item<1-> \textbf{Observables Selection:} Initial phase crucial for model efficiency.
-    \item<2-> \textbf{Tuning Methodologies:} 
-    \begin{itemize}
-        \item Random Fourier Features.
-        \item Deep Learning techniques.
-        \item Integration of physical priors via Lie Derivatives.
-    \end{itemize}
-\end{itemize}
-% Placeholder for example python code
-\begin{figure}
-  \centering
-  \includegraphics[width=0.5\textwidth]{path_to_code_image} % replace 'path_to_code_image' with the actual file path
-  \caption{Example Python code}
-\end{figure}
-% Placeholder for accuracy plot
-\begin{figure}
-  \centering
-  \includegraphics[width=0.5\textwidth]{path_to_accuracy_plot} % replace 'path_to_accuracy_plot' with the actual file path
-  \caption{Accuracy plot}
-\end{figure}
+This is a line
+\begin{columns}
+	\begin{column}{0.32\linewidth}
+		C
+	\end{column}
+	\begin{column}{0.32\linewidth}
+		B
+	\end{column}
+	\begin{column}{0.32\linewidth}
+		C
+	\end{column}
+\end{columns}
+%\begin{rows}
+%	\begin{row}{0.2\textheight}
+%		A
+%	\end{row}
+%	\begin{row}{0.8\textheight}
+%		B
+%	\end{row}
+%\end{rows}
+
+% \begin{itemize}
+%     \item<1-> \textbf{Observables Selection:} Initial phase crucial for model efficiency.
+%     \item<2-> \textbf{Tuning Methodologies:} 
+%     \begin{itemize}
+%         \item Random Fourier Features.
+%         \item Deep Learning techniques.
+%         \item Integration of physical priors via Lie Derivatives.
+%     \end{itemize}
+% \end{itemize}
+% % Placeholder for example python code
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{path_to_code_image} % replace 'path_to_code_image' with the actual file path
+%   \caption{Example Python code}
+% \end{figure}
+% % Placeholder for accuracy plot
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{path_to_accuracy_plot} % replace 'path_to_accuracy_plot' with the actual file path
+%   \caption{Accuracy plot}
+% \end{figure}
 \end{frame}
 
 %Slide 7
