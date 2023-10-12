@@ -82,6 +82,22 @@
 \usepackage[export]{adjustbox}
 \usepackage{pifont}
 
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,arrows.meta, automata,positioning,backgrounds}
+\usetikzlibrary{overlay-beamer-styles,patterns}
+\usetikzlibrary{chains, trees, fit, tikzmark}
+\usetikzlibrary{shapes.geometric, shapes.arrows, decorations.pathreplacing}
+\usetikzlibrary{%
+    ,arrows
+    ,arrows.meta
+    ,calc
+    ,fit
+    ,hobby
+    ,positioning
+}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes.symbols}
+
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 
@@ -99,6 +115,12 @@
 \definecolor{setfacegray}{rgb}{0.85,0.85,0.85}
 \definecolor{setedgered}{rgb}{0.6992,0.1367,0.1367}
 \definecolor{setfacered}{rgb}{0.8906,0.2617,0.2070}
+\pgfdeclarelayer{nodelayer}  
+\pgfdeclarelayer{edgelayer}   
+\pgfsetlayers{edgelayer,nodelayer, main}
+\definecolor{left} {HTML}{001528}
+% --------------------
+
 % --------------------
 
 \newcommand{\arstretch}[1]{\renewcommand{\arraystretch}{#1}}
@@ -170,17 +192,92 @@ Given trajectories, our goal is to learn a function \textbf{f} predicting the ne
 % Slide 4: The Koopman Operator
 \begin{frame}
 \frametitle{The Koopman Operator}
-In 1931, B.O. Koopman introduced an alternative way to represent dynamic systems. The Koopman operator offers a globally linear representation, but only for specific systems.
-\pause
+In 1931, B.O. Koopman introduced an alternative way to represent dynamic systems---a globally linear representation using a linear operator $\mathcal K_t$ on Koopman observables $\mathbf g(\mathbf x)$,
 \[
 \mathcal{K}_{t} \big(\mathbf{g} (\mathbf{x}_0, \mathbf{u}_0)\big) = \mathbf{g} \big(\mathbf{F}_{t}(\mathbf{x}_0,  \mathbf{u}_0 ), \mathbf{u}(t) \big)
 \]
+
+\begin{adjustbox}{max totalsize={.65\textwidth}{.65\textheight},center}
+  \begin{tikzpicture}
+    \begin{pgfonlayer}{nodelayer}
+            \node [] (0) at (-4.25, 1.75) {}; 
+            \node [] (1) at (-0.5, 1.25) {}; 
+            \node [] (2) at (-6, -1.25) {}; 
+            \node [] (3) at (-2.25, -1.75) {}; 
+            \node [] (4) at (2.25, 1.75) {}; 
+            \node [] (5) at (6, 1.25) {}; 
+            \node [] (6) at (0.5, -1.25) {}; 
+            \node [] (7) at (4.25, -1.75) {}; 
+            \node [] (8) at (-0.75, 0) {}; 
+            \node [] (9) at (0.75, 0) {}; 
+            \node [] (12) at (0, 0) {$g$}; 
+            \node [] (10) at (-1.55, 1.25) {$\mathcal M$}; 
+            \node [] (11) at (5, 0.75) {$\mathcal H$};
+            \node [] (13) at (-3, -0.1) {$F_t$};
+            \node [] (14) at (3.2, -0.3) {$K_t$};
+    \end{pgfonlayer}
+    \begin{pgfonlayer}{edgelayer}
+            \draw [shading=axis,fill=blue, opacity=0.3, left color=left, right color=left!10!white,shading angle=225] (0.center)
+                     to [bend left] (1.center)
+                     to [bend right=15] (3.center)
+                     to [bend right] (2.center)
+                     to [bend left, looseness=0.75] cycle;
+            \draw [fill=blue, opacity=0.2] (4.center)
+                     to (5.center)
+                     to (7.center)
+                     to (6.center)
+                     to cycle;
+            \draw [bend left, -stealth] (8.center) to (9.center);
+    \end{pgfonlayer}
+        \coordinate (g0) at (-5, 0);
+        \coordinate (g1) at (-4.5, .5);
+        \coordinate (g2) at (-4, -0.2);
+        \coordinate (g3) at (-2.5, 1);
+        \coordinate (g4) at (-2, 0);
+      \draw [dashed, use Hobby shortcut]
+      (g0) to [curve through = {(g1) .. (g2) .. (g3)}] (g4);
+        \fill (g0) circle [radius=2pt] node [anchor=east] {$(x_0, u_0)$};
+        \fill (g1) circle [radius=2pt] node [anchor=south] {$(x_1, u_1)$};
+        \fill (g2) circle [radius=2pt] node [anchor=south] {$(x_2, u_2)$};
+        \fill (g3) circle [radius=2pt] node [anchor=south] {$(x_3, u_3)$};
+        \fill (g4) circle [radius=2pt] node [anchor=south] {$(x_4, u_4)$};
+
+        \begin{scope}[xshift=6.5cm,yshift=-0.5cm]
+        \coordinate (x0) at (-5, 0);
+        \coordinate (x1) at (-4, .2);
+        \coordinate (x2) at (-3.2, .7);
+        \coordinate (x3) at (-2.5, 1);
+        \coordinate (x4) at (-2, 0);
+      \draw [dashed, use Hobby shortcut]
+      (x0) to [curve through = {(x1) .. (x2) .. (x3)}] (x4);
+        \fill (x0) circle [radius=2pt] node [anchor=south] {$y_0$};
+        \fill (x1) circle [radius=2pt] node [anchor=south] {$y_1$};
+        \fill (x2) circle [radius=2pt] node [anchor=south] {$y_2$};
+        \fill (x3) circle [radius=2pt] node [anchor=south] {$y_3$};
+        \fill (x4) circle [radius=2pt] node [anchor=south] {$y_4$};
+        \end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+
 \pause
-We utilize explicit learning techniques for the operator. Our aim is a finite space $\mathcal{H}$ where system dynamics are well approximated by a linear operator.
-\pause
-The optimization problem seeks the observables $\mathbf{g}$ and the Koopman operator $K_{\Delta t}$ minimizing the mean square error over the trajectories set $\mathcal{T}$.
+We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. Essential to this task is the optimization problem
+\begin{equation}
+    \underset{\mathbf{g}, K_{\Delta t}}{\operatorname{argmin}} \sum_{\left(\mathbf{x}_k, \mathbf{u}_k\right) \in \mathcal{T}}\left\|\mathbf{g}\left(\mathbf{x}_{k+1}, \mathbf{u}_{k+1}\right)-K_{\Delta t} \mathbf{g}\left(\mathbf{x}_k, \mathbf{u}_k\right)\right\|_{\mathrm{MSE}}.
+\end{equation}
 \end{frame}
 
+%Slide 8
+\begin{frame}
+\frametitle{AutoKoopman Features}
+\begin{itemize}
+    \item<1-> \textbf{SOTA Koopman Algorithms:} Access to various methods, including Deep Learning.
+    \item<2-> \textbf{Method Support:} Discrete-time, continuous-time system identification, and variations.
+    \item<3-> \textbf{Static Observables:} Different approaches for system observation.
+    \item<4-> \textbf{System Identification:} Techniques with input and control considerations.
+    \item<5-> \textbf{Online Identification:} Streaming system identification strategies.
+    \item<6-> \textbf{Hyperparameter Optimization:} Multiple strategies for efficient model tuning.
+\end{itemize}
+\end{frame}
 
 %Slide 5
 \begin{frame}
@@ -247,19 +344,6 @@ The optimization problem seeks the observables $\mathbf{g}$ and the Koopman oper
     \end{itemize}
     \item<2-> \textbf{Model Predictive Control (MPC):} Implemented using CasADi for enhanced control.
     \item<3-> \textbf{Online Reachability:} Real-time analysis for runtime assurance.
-\end{itemize}
-\end{frame}
-
-%Slide 8
-\begin{frame}
-\frametitle{AutoKoopman Features}
-\begin{itemize}
-    \item<1-> \textbf{SOTA Koopman Algorithms:} Access to various methods, including Deep Learning.
-    \item<2-> \textbf{Method Support:} Discrete-time, continuous-time system identification, and variations.
-    \item<3-> \textbf{Static Observables:} Different approaches for system observation.
-    \item<4-> \textbf{System Identification:} Techniques with input and control considerations.
-    \item<5-> \textbf{Online Identification:} Streaming system identification strategies.
-    \item<6-> \textbf{Hyperparameter Optimization:} Multiple strategies for efficient model tuning.
 \end{itemize}
 \end{frame}
 
