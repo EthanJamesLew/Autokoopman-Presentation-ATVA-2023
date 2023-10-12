@@ -1,15 +1,13 @@
 \pdfminorversion = 4
 \documentclass[shortpres,aspectratio=43]{beamer}
-%\documentclass[shortpres,aspectratio=169]{beamer}
 \usetheme{CambridgeUS}
-
 
 \setbeamertemplate{footline}
 {
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
-  \hspace*{4ex}\usebeamerfont{author in head/foot}Niklas Kochdumper%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \hspace*{4ex}\usebeamerfont{author in head/foot}Ethan Lew%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
     \usebeamerfont{title in head/foot} \insertshortdate{}
@@ -64,7 +62,6 @@
 \usepackage{algorithm,algpseudocode} % for algorithm environment
 \usepackage{booktabs} % for rulers in tables
 \usepackage{units} % for units to values
-%\usepackage{hyperref}
 \usepackage{tikz}
 \usetikzlibrary{calc,arrows,arrows.meta, automata,positioning,backgrounds}
 \usetikzlibrary{overlay-beamer-styles,patterns}
@@ -81,6 +78,32 @@
 \usepackage{german}
 \usepackage[export]{adjustbox}
 \usepackage{pifont}
+
+% Packages
+\usepackage{relsize}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{pstool}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{fancyvrb} 
+\usepackage{changepage}
+\usepackage{siunitx}
+\usepackage[skip=5pt]{caption}
+\usepackage{arydshln}
+\usepackage{comment}
+\usepackage{setspace}
+\usepackage{scalerel}
+\usepackage{enumitem}
+
+% for code
+\usepackage{minted}
+\newminted{python}{}
+\newmintinline{python}{}
+\newcommand{\py}[1]{\pythoninline{#1}}
 
 \usepackage{tikz}
 \usetikzlibrary{calc,arrows,arrows.meta, automata,positioning,backgrounds}
@@ -267,21 +290,36 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 \end{frame}
 
 %Slide 8
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{AutoKoopman Features}
-\begin{itemize}
-    \item<1-> \textbf{SOTA Koopman Algorithms:} Access to various methods, including Deep Learning.
-    \item<2-> \textbf{Method Support:} Discrete-time, continuous-time system identification, and variations.
-    \item<3-> \textbf{Static Observables:} Different approaches for system observation.
-    \item<4-> \textbf{System Identification:} Techniques with input and control considerations.
-    \item<5-> \textbf{Online Identification:} Streaming system identification strategies.
-    \item<6-> \textbf{Hyperparameter Optimization:} Multiple strategies for efficient model tuning.
-\end{itemize}
+
+AutoKoopman is high-level tool that automatically optimizes all hyper-parameters to obtain an accurate Koopman linearized models through a single function call
+\rule{\textwidth}{1pt}
+\scriptsize
+\begin{minted}{python}
+from autokoopman import auto_koopman
+
+experiment_results = auto_koopman(
+   training_data,    # list of trajectories
+   obs_type="rff",   # random Fourier feature observables
+   opt="bopt"        # auto-tuning via bayesian optimization
+)      
+\end{minted}
+\rule{\textwidth}{1pt}
+
+%\begin{itemize}
+%    \item<1-> \textbf{SOTA Koopman Algorithms:} Access to various methods, including Deep Learning.
+%    \item<2-> \textbf{Method Support:} Discrete-time, continuous-time system identification, and variations.
+%    \item<3-> \textbf{Static Observables:} Different approaches for system observation.
+%    \item<4-> \textbf{System Identification:} Techniques with input and control considerations.
+%    \item<5-> \textbf{Online Identification:} Streaming system identification strategies.
+%    \item<6-> \textbf{Hyperparameter Optimization:} Multiple strategies for efficient model tuning.
+%\end{itemize}
 \end{frame}
 
 %Slide 5
 \begin{frame}
-\frametitle{Problem Setup}
+\frametitle{F1Tenth Case Study: Problem Setup}
 \begin{itemize}
     \item<1-> \textbf{Objective:} Learning a Koopman linearized model for Stony Brook University's F1Tenth entry.
     \item<2-> \textbf{F1Tenth Competition:}
@@ -309,7 +347,7 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 
 %Slide 6
 \begin{frame}
-\frametitle{Koopman Linearization and Tuning}
+\frametitle{F1Tenth Case Study: Koopman Linearization and Tuning}
 \begin{itemize}
     \item<1-> \textbf{Observables Selection:} Initial phase crucial for model efficiency.
     \item<2-> \textbf{Tuning Methodologies:} 
@@ -335,7 +373,7 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 
 %Slide 7
 \begin{frame}
-\frametitle{Design and Analysis}
+\frametitle{F1Tenth Case Study: Design and Analysis}
 \begin{itemize}
     \item<1-> \textbf{Koopman Operator:} Basis for controller development.
     \begin{itemize}
@@ -365,17 +403,61 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 %Slide 10
 \begin{frame}
 \frametitle{Benchmarks}
-\begin{itemize}
-    \item<1-> \textbf{Testing Parameters:} Evaluated on symbolic, black box, and real data benchmarks.
-    \item<2-> \textbf{Performance:} Effective across various types of observables.
-    \item<3-> \textbf{Improvements:} Enhanced performance over standard DMD.
-\end{itemize}
-% Large placeholder for benchmark results table
-\begin{table}
-  \centering
-  \includegraphics[width=\textwidth]{path_to_benchmark_table} % replace with actual file path
-  \caption{AutoKoopman Benchmark Results}
-\end{table}
+%\begin{itemize}
+%    \item<1-> \textbf{Testing Parameters:} Evaluated on symbolic, black box, and real data benchmarks.
+%    \item<2-> \textbf{Performance:} Effective across various types of observables.
+%    \item<3-> \textbf{Improvements:} Enhanced performance over standard DMD.
+%\end{itemize}
+
+\begin{table*}%[!tb]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\caption{Comparison of the constructed Koopman linearized models.}
+\label{tab:benchmarks}
+%\vspace{-0.25cm}
+%\resizebox{\textwidth}{!}{%
+\tiny
+\begin{tabular}{c l c c c c c c c c c c c c c}
+\toprule
+& \textbf{System} & & \multicolumn{2}{c}{\textbf{Baseline}} & & \multicolumn{2}{c}{\textbf{Polynomial}} & & \multicolumn{2}{c}{\textbf{Fourier}} & & \multicolumn{2}{c}{\textbf{Neural Net.}} \\ \cmidrule{4-5} \cmidrule{7-8} \cmidrule{10-11} \cmidrule{13-14}
+ & & \hspace{3pt} dims \hspace{3pt} & error & time & ~ & error & time & ~ & \hspace{3pt} error \hspace{3pt} & time & ~ & \hspace{3pt} error \hspace{3pt} & time \\ \midrule
+ \multirow{7}{*}{\rotatebox[origin=c]{90}{\textbf{symbolic}}} & ~Pendulum 
+ & 2 & 21.4\% & 0.30 & ~ & 1.37\% & 14.8 & ~ & \textbf{1.62\%} & 16.4 & ~ & 43.2\% & 114\\
+ & ~FitzHugh-Nagumo
+ & 2 & 49.6\% & 0.18 & ~ & 35.6\% & 6.23 & ~ & \textbf{0.55\%} & 15.2 & ~ & 67.8\% & 147	\\
+ & ~Robertson 
+ & 2 & \textbf{6.43\%} & 0.19 & ~ & \textbf{6.43\%} & 2.79 & ~ & 26.0\% & 15.0 & ~ & 19.23\% & 173	\\
+  & ~Production-Destruction  
+  & 2 & 26.5\% & 0.19 & ~ & 26.5\% & 2.77 & ~ & \textbf{2.07\%} & 15.31 & ~ & 59.3\% & 323\\
+  & ~Spring Pendulum 
+  & 4 & 89.7\% & 0.19 & ~ & 89.7\% & 3.73 & ~ & \textbf{0.03\%} & 15.6 & ~ & 8.6\% & 98.2 \\
+ & ~Laub-Loomis 
+ & 7 & 5.47\% & 0.26 & ~ & 0.21\% & 9.82 & ~ & \textbf{0.04\%} & 16.0 & ~ & 22.25\% & 92.4 \\
+ & ~Biological Model
+ & 9 & 0.06\% & 0.35 & ~ & 0.06\% & 4.81 & ~ & \textbf{0.01\%} & 15.7 & ~ & 22.3\% & 178 \\
+ & ~Trans. Regulator Network
+ & 48 & 27.5\% & 0.53 & ~ & 27.5\% & 4.57 & ~ & 4.60\% & 18.4 & ~ & \textbf{3.11\%} & 165\\ \vspace{-10pt} \\ 
+\hdashline \vspace{-10pt} \\
+ \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{sim}}} & ~Engine Control 
+ & 2 & 13.5\% & 3.25 & ~ & 13.5\% & 40.2 & ~ & \textbf{2.54\%} & 119 & ~ & 22.9\% & 429 \\\
+ & ~Longitudinal Control
+ & 7 & 3.24\% & 0.32 & ~ & 3.24\% & 2.09 & ~ & \textbf{0.00\%} & 35.9 & ~ & 3.13\% & 164 \\
+ & ~Collision Avoidance 
+ & 16 & 2.61\% & 13.1 & ~ & 2.61\% & 236 & ~ & \textbf{2.39\%} & 600 & ~ & 95.1\% & 849\\ \vspace{-10pt} \\ 
+\hdashline \vspace{-10pt} \\
+ \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{real}}} & ~Electric Circuit
+ & 3 & \textbf{14.4\%} & 25.1 & ~ & \textbf{14.4\%} & 2217 & ~ & \textbf{14.4\%} & 1609 & ~ & 14.9\% & 1240 \\
+ & ~F1tenth Racecar
+ & 4 & 64.1\% & 1.88 & ~ & 64.1\% & 53.9 & ~ & 60.1\% & 41.7 & ~ & \textbf{50.7\%} & 177  \\
+ & ~Robot Arm 
+ & 12 & 66.4\% & 11.1 & ~ & 66.4\% & 163 & ~ & 33.0\% & 517 & ~ & \textbf{23.9\%} & 360 \\
+%
+\bottomrule
+\end{tabular}
+%} %end of resizebox
+\end{center}
+\vspace{-22pt}
+\end{table*}
 \end{frame}
 
 %Slide 11
