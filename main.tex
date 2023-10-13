@@ -180,7 +180,6 @@
 
 %% TUM logo
 %\addtobeamertemplate{frametitle}{}{
-%\begin{textblock*}{\textwidth}(.91\textwidth,-0.8cm) % for aspectratio=43
 %\includegraphics[height=0.65cm]{./figures/logo.png} % for aspectratio=43
 %\begin{textblock*}{\textwidth}(.95\textwidth,-0.9cm) % for aspectratio=169
 %\includegraphics[height=0.8cm]{./figures/logo.png} % for aspectratio=169
@@ -195,7 +194,7 @@
 \frametitle{Motivations}
 
 \begin{itemize}
-    \item<1-> Koopman linearization provides a valuable method for identifying nonlinear continuous dynamical systems using observed data, useful design and assurance tasks.
+    \item<1-> Koopman linearization methods identify nonlinear continuous dynamical systems using observed data, useful design and assurance tasks.
 	\includegraphics[width=\linewidth]{./img/koopman.png}
     \item<2-> \textbf{Challenge:} System identification via Koopman linearization is complex, requiring careful selection of observables and hyperparameters.
     \item<3-> \textbf{Solution:} AutoKoopman automates this, optimizing all parameters to deliver an accurate Koopman linearized model.
@@ -205,12 +204,19 @@
 % Slide 3: System Identification Problem
 \begin{frame}
 \frametitle{System Identification Problem}
-We aim to identify the dynamics of a continuous-time system from a set of trajectories:
-\begin{equation}
-\dot{\mathbf{x}}(t) = \mathbf{f}(\mathbf{x}(t), \mathbf{u}(t))
-\end{equation}
-\pause
-Given trajectories, our goal is to learn a function \textbf{f} predicting the next state or time derivative. The system dynamics can be described by an arbitrary black-box function $\mathbf{f}(\mathbf{x}(t), \mathbf{u}(t))$, accommodating various system types.
+We aim to identify the dynamics of a continuous-time system 
+\begin{equation*}
+\dot{\mathbf x}(t) = \mathbf f(\mathbf x(t), \mathbf u(t))
+\end{equation*}
+with state $\mathbf x(t) \in \mathcal X \subseteq \mathbb R^n$ and input $\mathbf u(t) \in \mathcal U \subseteq \mathbb R^m$ from a set of $\numTraj{}$ trajectories \vspace{-5pt}
+\begin{equation*}
+\mathcal{T} = \big\{[(\mathbf x_i(t_0), \mathbf u_i(t_0)), \dots, \\ (\mathbf x_i(t_{\numMeas{}_i-1}), \mathbf u_i(t_{\numMeas{}_i-1}))] \big\}_{i=1}^{\numTraj{}}.
+\end{equation*}
+For now, we consider the uniform sampling case where $t_{i+1} = t_{i} + \Delta t$.
+\rule{\textwidth}{1pt}
+\begin{center}
+\includegraphics[width=0.7\linewidth]{./img/sysid.pdf}
+\end{center}
 \end{frame}
 
 % Slide 4: The Koopman Operator
@@ -329,22 +335,18 @@ experiment_results = auto_koopman(
 	    \item<4-> \textbf{Data Collection:} 21 Trajectories of the 4D vehicle state with 2D inputs collected for analysis.
 	\end{itemize}
 	\end{column}
-	\begin{column}{0.5\textwidth}
+	\begin{column}{0.4\textwidth}
 		\begin{figure}
-	\centering
-	  \includegraphics[width=0.8\textwidth]{./img/f1tenth.png}
-	  \tiny
-	  \caption{The F1Tenth Platform}
+		\centering
+		  \includegraphics[width=0.8\textwidth]{./img/f1tenth.png}
+		  \caption{The F1Tenth Platform}
 		\end{figure}
-
 		\begin{figure}
 	\centering
 	  \includegraphics[width=0.8\textwidth]{./img/predictions.pdf} % replace 'path_to_image2' with the actual file path
-	  \tiny
 	  \caption{Trajectories Data}
 		\end{figure}
 	\end{column}
-
 \end{columns}
 \end{frame}
 
