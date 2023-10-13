@@ -195,7 +195,11 @@
 
 \begin{itemize}
     \item<1-> Koopman linearization methods identify nonlinear continuous dynamical systems using observed data, useful design and assurance tasks.
-	\includegraphics[width=\linewidth]{./img/koopman.png}
+\end{itemize}
+\begin{center}
+	    \includegraphics[width=0.95\linewidth]{./img/koopman.png}
+    \end{center}
+\begin{itemize}
     \item<2-> \textbf{Challenge:} System identification via Koopman linearization is complex, requiring careful selection of observables and hyperparameters.
     \item<3-> \textbf{Solution:} AutoKoopman automates this, optimizing all parameters to deliver an accurate Koopman linearized model.
 \end{itemize}
@@ -302,7 +306,7 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 
 AutoKoopman is high-level tool that automatically optimizes all hyper-parameters to obtain an accurate Koopman linearized models through a single function call
 \rule{\textwidth}{1pt}
-\scriptsize
+\begin{scriptsize}
 \begin{minted}{python}
 from autokoopman import auto_koopman
 
@@ -312,7 +316,15 @@ experiment_results = auto_koopman(
    opt="bopt"        # auto-tuning via bayesian optimization
 )      
 \end{minted}
+\end{scriptsize}
 \rule{\textwidth}{1pt}
+
+This accesses the toolboxes's major features
+\begin{itemize}
+	\item \textbf{System Identification}: eDMD, SINDy, Streaming, KIC
+	\item \textbf{Observables}: Polynomial, Random Fourier Features, Neural Network
+	\item \textbf{Hyperparameter Tuning}: Random, Grid Search, Bayesian Optimization
+\end{itemize}
 
 %\begin{itemize}
 %    \item<1-> \textbf{SOTA Koopman Algorithms:} Access to various methods, including Deep Learning.
@@ -334,16 +346,17 @@ experiment_results = auto_koopman(
 	    \item<3-> \textbf{Objective:} A Koopman linearized \textit{surrogate model} for control tasks and runtime assurance.
 	    \item<4-> \textbf{Data Collection:} 21 Trajectories of the 4D vehicle state with 2D inputs collected for analysis.
 	\end{itemize}
+	\vspace{50pt}
 	\end{column}
 	\begin{column}{0.4\textwidth}
 		\begin{figure}
 		\centering
-		  \includegraphics[width=0.8\textwidth]{./img/f1tenth.png}
+		  \includegraphics[width=0.9\textwidth]{./img/f1tenth.png}
 		  \caption{The F1Tenth Platform}
 		\end{figure}
 		\begin{figure}
 	\centering
-	  \includegraphics[width=0.8\textwidth]{./img/predictions.pdf} % replace 'path_to_image2' with the actual file path
+	  \includegraphics[width=0.8\textwidth]{./img/training.pdf} % replace 'path_to_image2' with the actual file path
 	  \caption{Trajectories Data}
 		\end{figure}
 	\end{column}
@@ -382,6 +395,7 @@ A convenience function allows us to experiment with many Koopman Linearization o
 	\begin{column}{0.32\linewidth}
 		\small
 		\textbf{Deep Learning (Autoencoder)}
+		TODO
 		\begin{itemize}
 			\item $n$ observables: 42
 			\item Score: 0.0432
@@ -424,17 +438,39 @@ A convenience function allows us to experiment with many Koopman Linearization o
 \end{frame}
 
 %Slide 7
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{F1Tenth Case Study: Design and Analysis}
 \begin{itemize}
-    \item<1-> \textbf{Koopman Operator:} Basis for controller development.
-    \begin{itemize}
-        \item Collection of functions.
-        \item Linear operator matrix.
-    \end{itemize}
-    \item<2-> \textbf{Model Predictive Control (MPC):} Implemented using CasADi for enhanced control.
-    \item<3-> \textbf{Online Reachability:} Real-time analysis for runtime assurance.
+    \item<1-> The Koopman Operator can be used for design and analysis tasks.
+	    \vspace{12pt}
+\begin{scriptsize}
+    \begin{verbatim}
+>> model.koopman_operator
+array([[-2.25620904e+00,  2.62211614e+00,  3.09688097e+00, ...,
+         1.76720882e-01,  9.64657948e-01,  1.07107764e-03],
+       ...,
+       [ 5.78220623e-01,  5.88793167e-02,  5.02129287e-01, ...,
+         1.03782853e-01, -6.61264003e-01, -1.55678643e+00]])
+    \end{verbatim}
+    \end{scriptsize}
+    %\item<2-> \textbf{Model Predictive Control (MPC):} Implemented using CasADi for enhanced control.
+    %\item<3-> \textbf{Online Reachability:} Real-time analysis for runtime assurance.
 \end{itemize}
+\rule{\textwidth}{1pt}
+\vspace{-0.25cm}
+\begin{columns}
+	\begin{column}{0.55\linewidth}
+\textbf{Model Predictive Control (MPC)} 
+\begin{figure}
+	\centering
+\includegraphics[width=0.8\linewidth]{./img/F1tenth.eps}
+\caption{F1Tenth Koopman MPC}
+\end{figure}
+	\end{column}
+	\begin{column}{0.45\linewidth}
+\textbf{Online Reachability:} TODO
+\end{column}
+\end{columns}
 \end{frame}
 
 %Slide 9
@@ -442,14 +478,16 @@ A convenience function allows us to experiment with many Koopman Linearization o
 \frametitle{Toolbox Architecture}
 \begin{itemize}
     \item<1-> \textbf{Training Pipeline:} Architecture follows system identification training pipeline.
+\end{itemize}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{./img/autokoopman_objects.pdf} % replace with actual file path
+  \caption{System Architecture}
+\end{figure}
+\begin{itemize}
     \item<2-> \textbf{Extensibility:} Customize pipelines with unique observables, pre-processing, tuners, etc.
 \end{itemize}
 % Placeholder for architecture diagram
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{path_to_architecture_diagram} % replace with actual file path
-  \caption{System Architecture}
-\end{figure}
 \end{frame}
 
 %Slide 10
@@ -460,7 +498,7 @@ A convenience function allows us to experiment with many Koopman Linearization o
 %    \item<2-> \textbf{Performance:} Effective across various types of observables.
 %    \item<3-> \textbf{Improvements:} Enhanced performance over standard DMD.
 %\end{itemize}
-
+AutoKoopman has been evaluated on symbolic, black box, and real data benchmarks.
 \begin{table*}%[!tb]
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -516,13 +554,13 @@ A convenience function allows us to experiment with many Koopman Linearization o
 \begin{frame}
 \frametitle{Conclusion and Future Work}
 \begin{itemize}
-    \item<1-> \textbf{AutoKoopman Tool:} 
+    \item \textbf{AutoKoopman Tool:} 
     \begin{itemize}
         \item Automated Koopman Linearized System.
         \item Extensibility and ease of use.
     \end{itemize}
-    \item<2-> \textbf{Availability:} Hosted on platforms like GitHub and PyPI.
-    \item<3-> \textbf{Future Work:} Potential integration with verification and control tools.
+    \item \textbf{Availability:} Hosted on platforms like GitHub and PyPI.
+    \item \textbf{Future Work:} Potential integration with verification and control tools.
 \end{itemize}
 \end{frame}
 
