@@ -75,7 +75,6 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{bbding}
-\usepackage{german}
 \usepackage[export]{adjustbox}
 \usepackage{pifont}
 
@@ -123,6 +122,9 @@
 
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
+
+\setbeamerfont{caption}{size=\tiny}
+
 
 % TikZ ---------------
 \tikzset{
@@ -184,7 +186,6 @@
 %\includegraphics[height=0.8cm]{./figures/logo.png} % for aspectratio=169
 %\end{textblock*}}
 
-
 \begin{frame}[plain]
     \titlepage
 \end{frame}
@@ -192,12 +193,12 @@
 % Slide 2: Motivations
 \begin{frame}
 \frametitle{Motivations}
+
 \begin{itemize}
-    \item<1-> Koopman linearization provides a valuable method for identifying continuous dynamical systems using observed data.
-    \item<2-> It captures complex non-linear behaviors, providing a globally applicable linear model.
-    \item<3-> Useful for future state prediction, system design and optimization, and enhancing interpretability and physical understanding.
-    \item<4-> \textbf{Challenge:} System identification via Koopman linearization is complex, requiring careful selection of observables and hyperparameters.
-    \item<5-> \textbf{Solution:} AutoKoopman automates this, optimizing all parameters to deliver an accurate Koopman linearized model.
+    \item<1-> Koopman linearization provides a valuable method for identifying nonlinear continuous dynamical systems using observed data, useful design and assurance tasks.
+	\includegraphics[width=\linewidth]{./img/koopman.png}
+    \item<2-> \textbf{Challenge:} System identification via Koopman linearization is complex, requiring careful selection of observables and hyperparameters.
+    \item<3-> \textbf{Solution:} AutoKoopman automates this, optimizing all parameters to deliver an accurate Koopman linearized model.
 \end{itemize}
 \end{frame}
 
@@ -325,23 +326,23 @@ experiment_results = auto_koopman(
 	\begin{itemize}
 	    \item<1-> \textbf{F1Tenth Competition:} Open-source autonomous 1:10 scale car platform offering global competitions with innovative entries.
 	    \item<3-> \textbf{Objective:} A Koopman linearized \textit{surrogate model} for control tasks and runtime assurance.
-	    \item<4-> \textbf{Data Collection:} Trajectories of the 4D vehicle state with inputs collected for analysis.
+	    \item<4-> \textbf{Data Collection:} 21 Trajectories of the 4D vehicle state with 2D inputs collected for analysis.
 	\end{itemize}
 	\end{column}
 	\begin{column}{0.5\textwidth}
-% Placeholder for F1Tenth platform image
-\begin{figure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{./img/f1tenth.png}
-  \caption{F1Tenth platform}
-\end{figure}
+		\begin{figure}
+	\centering
+	  \includegraphics[width=0.8\textwidth]{./img/f1tenth.png}
+	  \tiny
+	  \caption{The F1Tenth Platform}
+		\end{figure}
 
-% Placeholder for trajectories visualization image
-\begin{figure}
-  \centering
-  \includegraphics[width=0.5\textwidth]{path_to_image2} % replace 'path_to_image2' with the actual file path
-  \caption{Trajectories visualization}
-\end{figure}
+		\begin{figure}
+	\centering
+	  \includegraphics[width=0.8\textwidth]{./img/predictions.pdf} % replace 'path_to_image2' with the actual file path
+	  \tiny
+	  \caption{Trajectories Data}
+		\end{figure}
 	\end{column}
 
 \end{columns}
@@ -350,16 +351,42 @@ experiment_results = auto_koopman(
 %Slide 6
 \begin{frame}
 \frametitle{F1Tenth Case Study: Koopman Linearization and Tuning}
-This is a line
+A convenience function allows us to experiment with many Koopman Linearization options, automatically tuning different hyperparameters involved. 
+\rule{\textwidth}{1pt}
+\vspace{-0.25cm}
 \begin{columns}
 	\begin{column}{0.32\linewidth}
-		C
+		\small
+		\textbf{Default Fit (RFFs)}
+		\begin{itemize}
+			\item $n$ observables: 42
+			\item Score: 0.0432
+		\end{itemize}
+		\begin{center}
+		\includegraphics[width=0.8\linewidth]{./img/predictions.pdf}
+		\end{center}
 	\end{column}
 	\begin{column}{0.32\linewidth}
-		B
+		\small
+		\textbf{Physical Priors (Handcrafted + RFFs)}
+		\begin{itemize}
+			\item $n$ observables: 42
+			\item Score: 0.0371
+		\end{itemize}
+		\begin{center}
+		\includegraphics[width=0.8\linewidth]{./img/predictions_both.pdf}
+		\end{center}
 	\end{column}
 	\begin{column}{0.32\linewidth}
-		C
+		\small
+		\textbf{Deep Learning (Autoencoder)}
+		\begin{itemize}
+			\item $n$ observables: 42
+			\item Score: 0.0432
+		\end{itemize}
+		\begin{center}
+		\includegraphics[width=0.8\linewidth]{./img/predictions_both.pdf}
+		\end{center}
 	\end{column}
 \end{columns}
 %\begin{rows}
