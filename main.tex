@@ -77,6 +77,7 @@
 \usepackage{bbding}
 \usepackage[export]{adjustbox}
 \usepackage{pifont}
+\usepackage{svg}
 
 % Packages
 \usepackage{relsize}
@@ -125,6 +126,18 @@
 
 \setbeamerfont{caption}{size=\tiny}
 
+% The usual suspects
+\usepackage{booktabs} % Tables
+% The table highlighting for hypothesis discussion.
+\usepackage[beamer,customcolors]{hf-tikz}
+\usetikzlibrary{calc}
+
+% To set the hypothesis highlighting boxes red.
+\tikzset{hl/.style={
+    set fill color=red!80!black!40,
+    set border color=red!80!black,
+  },
+}
 
 % TikZ ---------------
 \tikzset{
@@ -174,6 +187,8 @@
 \institute[Galois Inc.]{$^1$Galois Inc., $^2$Newcastle University, \\$^3$ Stony Brook University, $^4$Air Force Research Laboratory}
 
 \date[ATVA 2023]{}
+
+\newcommand{\btVFill}{\vskip0pt plus 1filll}
 
 %---------------------------------------------------------------------
 \begin{document}
@@ -304,7 +319,17 @@ We aim to identify systems by learning $\mathbf g$ and $\mathcal K_{\Delta t}$. 
 \begin{frame}[fragile]
 \frametitle{AutoKoopman Features}
 
-AutoKoopman is high-level tool that automatically optimizes all hyper-parameters to obtain an accurate Koopman linearized models through a single function call
+\begin{columns}
+    \begin{column}{0.4\linewidth}
+    \begin{center}
+    \includegraphics[width=\linewidth]{./img/logo-full.pdf}
+    \end{center}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+AutoKoopman is high-level to obtain accurate Koopman linearized models through a single function call
+    \end{column}
+\end{columns}
+
 \rule{\textwidth}{1pt}
 \begin{scriptsize}
 \begin{minted}{python}
@@ -354,11 +379,11 @@ This accesses the toolboxes's major features
 		  \includegraphics[width=0.9\textwidth]{./img/f1tenth.png}
 		  \caption{The F1Tenth Platform}
 		\end{figure}
-		\begin{figure}
+		\uncover<4->{\begin{figure}
 	\centering
 	  \includegraphics[width=0.8\textwidth]{./img/training.pdf} % replace 'path_to_image2' with the actual file path
 	  \caption{Trajectories Data}
-		\end{figure}
+		\end{figure}}
 	\end{column}
 \end{columns}
 \end{frame}
@@ -468,7 +493,12 @@ array([[-2.25620904e+00,  2.62211614e+00,  3.09688097e+00, ...,
 \end{figure}
 	\end{column}
 	\begin{column}{0.45\linewidth}
-\textbf{Online Reachability:} TODO
+\textbf{Online Reachability} 
+\begin{figure}
+	\centering
+\includegraphics[width=0.95\linewidth]{img/results.pdf}
+\caption{Reachset Conformance on Robotic Arm}
+\end{figure}
 \end{column}
 \end{columns}
 \end{frame}
@@ -507,41 +537,41 @@ AutoKoopman has been evaluated on symbolic, black box, and real data benchmarks.
 %\vspace{-0.25cm}
 %\resizebox{\textwidth}{!}{%
 \tiny
-\begin{tabular}{c l c c c c c c c c c c c c c}
+\begin{tabular}{c l c c c c c c c c c c c}
 \toprule
-& \textbf{System} & & \multicolumn{2}{c}{\textbf{Baseline}} & & \multicolumn{2}{c}{\textbf{Polynomial}} & & \multicolumn{2}{c}{\textbf{Fourier}} & & \multicolumn{2}{c}{\textbf{Neural Net.}} \\ \cmidrule{4-5} \cmidrule{7-8} \cmidrule{10-11} \cmidrule{13-14}
- & & \hspace{3pt} dims \hspace{3pt} & error & time & ~ & error & time & ~ & \hspace{3pt} error \hspace{3pt} & time & ~ & \hspace{3pt} error \hspace{3pt} & time \\ \midrule
- \multirow{7}{*}{\rotatebox[origin=c]{90}{\textbf{symbolic}}} & ~Pendulum 
- & 2 & 21.4\% & 0.30 & ~ & 1.37\% & 14.8 & ~ & \textbf{1.62\%} & 16.4 & ~ & 43.2\% & 114\\
- & ~FitzHugh-Nagumo
- & 2 & 49.6\% & 0.18 & ~ & 35.6\% & 6.23 & ~ & \textbf{0.55\%} & 15.2 & ~ & 67.8\% & 147	\\
- & ~Robertson 
- & 2 & \textbf{6.43\%} & 0.19 & ~ & \textbf{6.43\%} & 2.79 & ~ & 26.0\% & 15.0 & ~ & 19.23\% & 173	\\
-  & ~Production-Destruction  
-  & 2 & 26.5\% & 0.19 & ~ & 26.5\% & 2.77 & ~ & \textbf{2.07\%} & 15.31 & ~ & 59.3\% & 323\\
-  & ~Spring Pendulum 
-  & 4 & 89.7\% & 0.19 & ~ & 89.7\% & 3.73 & ~ & \textbf{0.03\%} & 15.6 & ~ & 8.6\% & 98.2 \\
- & ~Laub-Loomis 
- & 7 & 5.47\% & 0.26 & ~ & 0.21\% & 9.82 & ~ & \textbf{0.04\%} & 16.0 & ~ & 22.25\% & 92.4 \\
- & ~Biological Model
- & 9 & 0.06\% & 0.35 & ~ & 0.06\% & 4.81 & ~ & \textbf{0.01\%} & 15.7 & ~ & 22.3\% & 178 \\
- & ~Trans. Regulator Network
- & 48 & 27.5\% & 0.53 & ~ & 27.5\% & 4.57 & ~ & 4.60\% & 18.4 & ~ & \textbf{3.11\%} & 165\\ \vspace{-10pt} \\ 
+& \textbf{System} & & \multicolumn{2}{c}{\textbf{Polynomial}} & & \multicolumn{2}{c}{\textbf{Fourier}} & & \multicolumn{2}{c}{\textbf{Neural Net.}} \\ \cmidrule{4-5} \cmidrule{7-8} \cmidrule{10-11}
+& & \hspace{3pt} dims \hspace{3pt} & error & time & ~ & \hspace{3pt} error \hspace{3pt} & time & ~ & \hspace{3pt} error \hspace{3pt} & time \\ \midrule
+\multirow{7}{*}{\rotatebox[origin=c]{90}{\textbf{symbolic}}} 
+& ~Pendulum 
+& 2 & 1.37\% & 14.8 & ~ & \tikzmarkin<2>{col} \textbf{1.62\%} & 16.4 & ~ & 43.2\% & \tikzmarkin<4>{col4}114\\
+& ~FitzHugh-Nagumo
+& 2 & 35.6\% & 6.23 & ~ & \textbf{0.55\%} & 15.2 & ~ & 67.8\% & 147	\\
+& ~Robertson 
+& 2 & \textbf{6.43\%} & 2.79 & ~ & 26.0\% & 15.0 & ~ & 19.23\% & 173	\\
+ & ~Production-Destruction  
+ & 2 & 26.5\% & 2.77 & ~ & \textbf{2.07\%} & 15.31 & ~ & 59.3\% & 323\\
+ & ~Spring Pendulum 
+ & 4 & 89.7\% & 3.73 & ~ & \textbf{0.03\%} & 15.6 & ~ & 8.6\% & 98.2 \\
+& ~Laub-Loomis 
+& 7 & 0.21\% & 9.82 & ~ & \textbf{0.04\%} & 16.0 & ~ & 22.25\% & 92.4 \\
+& ~Biological Model
+& 9 & 0.06\% & 4.81 & ~ & \textbf{0.01\%} & 15.7 & ~ & 22.3\% & 178 \\
+& ~Trans. Regulator Network
+& 48 & 27.5\% & 4.57 & ~ & 4.60\% & 18.4 & ~ & \textbf{3.11\%} & 165\\ \vspace{-10pt} \\ 
 \hdashline \vspace{-10pt} \\
- \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{sim}}} & ~Engine Control 
- & 2 & 13.5\% & 3.25 & ~ & 13.5\% & 40.2 & ~ & \textbf{2.54\%} & 119 & ~ & 22.9\% & 429 \\\
- & ~Longitudinal Control
- & 7 & 3.24\% & 0.32 & ~ & 3.24\% & 2.09 & ~ & \textbf{0.00\%} & 35.9 & ~ & 3.13\% & 164 \\
- & ~Collision Avoidance 
- & 16 & 2.61\% & 13.1 & ~ & 2.61\% & 236 & ~ & \textbf{2.39\%} & 600 & ~ & 95.1\% & 849\\ \vspace{-10pt} \\ 
+\multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{sim}}} & ~Engine Control 
+& 2 & 13.5\% & 40.2 & ~ & \textbf{2.54\%} & 119 & ~ & 22.9\% & 429 \\\
+& ~Longitudinal Control
+& 7 & 3.24\% & 2.09 & ~ & \textbf{0.00\%} & 35.9 & ~ & 3.13\% & 164 \\
+& ~Collision Avoidance 
+& 16 & 2.61\% & 236 & ~ & \textbf{2.39\%} & 600 & ~ & 95.1\% & 849\\ \vspace{-10pt} \\ 
 \hdashline \vspace{-10pt} \\
- \multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{real}}} & ~Electric Circuit
- & 3 & \textbf{14.4\%} & 25.1 & ~ & \textbf{14.4\%} & 2217 & ~ & \textbf{14.4\%} & 1609 & ~ & 14.9\% & 1240 \\
- & ~F1tenth Racecar
- & 4 & 64.1\% & 1.88 & ~ & 64.1\% & 53.9 & ~ & 60.1\% & 41.7 & ~ & \textbf{50.7\%} & 177  \\
- & ~Robot Arm 
- & 12 & 66.4\% & 11.1 & ~ & 66.4\% & 163 & ~ & 33.0\% & 517 & ~ & \textbf{23.9\%} & 360 \\
-%
+\multirow{3}{*}{\rotatebox[origin=c]{90}{\textbf{real}}} & ~Electric Circuit
+& 3 & \textbf{14.4\%} & 2217 & ~ & \textbf{14.4\%}\tikzmarkend{col} & 1609 & ~ & 14.9\% & 1240 \\
+& ~F1tenth Racecar
+& 4 & 64.1\% & 53.9 & ~ & 60.1\% & 41.7 & ~ & \tikzmarkin<3>{col3}\textbf{50.7\%} & 177  \\
+& ~Robot Arm 
+& 12 & 66.4\% & 163 & ~ & 33.0\% & 517 & ~ & \textbf{23.9\%}\tikzmarkend{col3} & 360\tikzmarkend{col4} \\
 \bottomrule
 \end{tabular}
 %} %end of resizebox
@@ -551,17 +581,52 @@ AutoKoopman has been evaluated on symbolic, black box, and real data benchmarks.
 \end{frame}
 
 %Slide 11
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Conclusion and Future Work}
+
 \begin{itemize}
-    \item \textbf{AutoKoopman Tool:} 
-    \begin{itemize}
-        \item Automated Koopman Linearized System.
-        \item Extensibility and ease of use.
-    \end{itemize}
-    \item \textbf{Availability:} Hosted on platforms like GitHub and PyPI.
-    \item \textbf{Future Work:} Potential integration with verification and control tools.
+\item \textbf{AutoKoopman Tool:} Automated Koopman linearized system that is extensible and easy to use.
+\item \textbf{Contributors:}
+\begin{scriptsize}
+ \underline{Ethan Lew}$^1$, Abdelrahman Hekal$^2$, Kostiantyn Potomkin$^2$, Niklas Kochdumper$^3$, Brandon Hencey$^4$, Stanley Bak$^3$, Sergiy Bogomolov$^2$
+\end{scriptsize}
 \end{itemize}
+\rule{\textwidth}{1pt}
+\vspace{-0.25cm}
+Hosted on PyPI and GitHub
+\begin{columns}
+    \begin{column}{0.5\linewidth}
+    \begin{center}
+    \includegraphics[width=0.3\textwidth]{img/PyPI_logo.pdf} 
+\begin{scriptsize}
+\\
+    \mintinline{shell}{pip install autokoopman}
+\end{scriptsize}
+    \end{center}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+    \begin{center}
+    \includegraphics[width=0.2\textwidth]{img/github-mark.pdf}
+    \\
+    \begin{scriptsize}
+    \url{EthanJamesLew/AutoKoopman.git}
+    \end{scriptsize}
+    \end{center} 
+    \end{column}
+\end{columns}
+\rule{\textwidth}{1pt}
+\vspace{-0.25cm}
+
+Ongoing and Future Work
+\begin{itemize}
+    \item Falsification via Koopman Linearized Surrogate Models
+    \item Reachability of Deep Learning Koopman Linearized Systems
+\end{itemize}
+
+\btVFill
+\begin{scriptsize}
+$^1$Galois Inc., $^2$Newcastle University, $^3$ Stony Brook University, $^4$Air Force Research Laboratory
+\end{scriptsize}
 \end{frame}
 
 \end{document}
